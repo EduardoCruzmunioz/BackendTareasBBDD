@@ -1,25 +1,26 @@
 # Aplicación de tareas por consola – Node + Oracle (FreeSQL)
 
+Aplicación de consola interactiva para gestionar tareas. Los datos se guardan en una base de datos Oracle (FreeSQL).
+
 ## Puesta en marcha
 
-1. Instalar paquetes:
+1. Instalar los paquetes:
 
    ```bash
-   npm install colors inquirer@8 uuid@9 oracledb
+   npm install
    ```
 
-2. Crear tus datos de conexión:
+2. Crear los datos de conexión:
 
-   - Copia `helpers/config.example.js` como `helpers/config.js`.
-   - Rellena `user`, `password` y `connectString` con los datos de FreeSQL
-     (Schema Connection Details).
-   - `helpers/config.js` está en `.gitignore`: nunca se sube a git.
+   - Copiar `helpers/config.example.js` como `helpers/config.js`.
+   - Rellenar `user`, `password` y `connectString` con los datos de FreeSQL (Schema Connection Details).
+   - `helpers/config.js` está en `.gitignore`, no se sube a git.
 
 3. Crear la tabla ejecutando `database/tareas.sql` en el editor de FreeSQL.
 
 4. Probar la conexión y arrancar:
 
    ```bash
-   node probarConexion.js
-   node app.js
+   npm run probar
+   npm start
    ```

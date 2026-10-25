@@ -1,6 +1,4 @@
-// Copia este archivo como helpers/config.js y rellena tus datos.
-// config.js está en .gitignore y NO se sube a git.
-// Los datos salen de FreeSQL > Schema Connection Details.
+// Copia este archivo como config.js y pon tus datos de FreeSQL
 module.exports = {
     user: 'TU_USUARIO',
     password: 'TU_PASSWORD',

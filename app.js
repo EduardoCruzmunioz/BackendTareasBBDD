@@ -17,42 +17,47 @@ const main = async() => {
     let opt = '';
     const tareas = new Tareas();
 
-    //leemos y cargamos las tareas
+    // Cargar las tareas guardadas en la base de datos
     const tareasDB = await leerDB();
 
-    if ( tareasDB ) { // cargar tareas
+    if ( tareasDB ) {
         tareas.cargarTareasFromArray( tareasDB );
     }
 
     do {
-        // Imprimir el menú
+        // Mostrar el menú y esperar la opción
         opt = await inquirerMenu();
 
         switch (opt) {
             case '1':
-                // crear opcion
+                // Crear tarea
                 const desc = await leerInput('Descripción:');
                 tareas.crearTarea( desc );
             break;
 
             case '2':
+                // Listar todas
                 tareas.listadoCompleto();
             break;
 
             case '3':
+                // Listar completadas
                 tareas.listarPendientesCompletadas( true );
             break;
 
             case '4':
+                // Listar pendientes
                 tareas.listarPendientesCompletadas( false );
             break;
 
-            case '5': // completado | pendiente
+            case '5':
+                // Marcar completadas o pendientes
                 const ids = await mostrarListadoChecklist( tareas.listadoArr );
                 tareas.toggleCompletadas( ids );
             break;
 
-            case '6': // Borrar
+            case '6':
+                // Borrar tarea con confirmación
                 const id = await listadoTareasBorrar( tareas.listadoArr );
                 if ( id !== '0' ) {
                     const ok = await confirmar('¿Está seguro?');
@@ -64,6 +69,7 @@ const main = async() => {
             break;
         }
 
+        // Guardar los cambios en la base de datos
         await guardarDB( tareas.listadoArr );
 
         await pausa();

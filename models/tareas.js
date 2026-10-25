@@ -1,20 +1,18 @@
 require('colors');
 const Tarea = require('./Tarea');
 
+// Colección de tareas guardadas en un objeto (la clave es el id)
 class Tareas {
 
     constructor() {
         this._listado = {};
     }
 
+    // Devuelve las tareas como array
     get listadoArr() {
 
         const listado = [];
-        /**
-         * JS tiene el métod keys de objeto que extrae cada una de las llaves que tenga
-         * en este caso el objeto listado
-         * Esta función crea un array
-         */
+
         Object.keys(this._listado).forEach( key => {
             const tarea = this._listado[key];
             listado.push( tarea );
@@ -23,6 +21,7 @@ class Tareas {
         return listado;
     }
 
+    // Carga las tareas que vienen de la base de datos
     cargarTareasFromArray( tareas = [] ) {
 
         tareas.forEach( tarea => {
@@ -36,8 +35,7 @@ class Tareas {
         this._listado[tarea.id] = tarea;
     }
 
-    // Formato: "1. Nombre :: Completada | Pendiente"
-    // número en verde, Completada en verde, Pendiente en rojo
+    // Lista todas: Completada en verde, Pendiente en rojo
     listadoCompleto() {
 
         console.log();
@@ -53,7 +51,7 @@ class Tareas {
         });
     }
 
-    // Una sola función: true => completadas, false => pendientes
+    // Lista completadas (true) o pendientes (false)
     listarPendientesCompletadas( completadas = true ) {
 
         console.log();
@@ -80,6 +78,7 @@ class Tareas {
         }
     }
 
+    // Marca como completadas las seleccionadas y deja pendientes el resto
     toggleCompletadas( ids = [] ) {
 
         ids.forEach( id => {

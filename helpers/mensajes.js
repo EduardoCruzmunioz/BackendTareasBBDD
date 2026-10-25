@@ -1,5 +1,6 @@
 require('colors');
 
+// Menú con readline: devuelve la opción escrita por el usuario
 const mostrarMenu = () => {
 
     return new Promise( resolve => {
@@ -17,8 +18,7 @@ const mostrarMenu = () => {
         console.log(`${ '6.'.green } Borrar tarea`);
         console.log(`${ '0.'.green } Salir \n`);
 
-        //Readline esta ya incluido en node no hay que instalar nada
-        //https://nodejs.org/api/readline.html
+        // readline ya viene incluido en node
         const readline = require('readline').createInterface({
             input: process.stdin,
             output: process.stdout
@@ -32,7 +32,7 @@ const mostrarMenu = () => {
     });
 }
 
-//al pulsar intro cerramos la instancia readline y cerramos la app o volvemos atras
+// Pausa hasta que el usuario pulse ENTER
 const pausa = () => {
 
     return new Promise( resolve => {
@@ -41,7 +41,7 @@ const pausa = () => {
             output: process.stdout
         });
 
-        readline.question(`\nPresione ${ 'ENTER'.green } para continuar\n`, (opt) => {
+        readline.question(`\nPresione ${ 'ENTER'.green } para continuar\n`, () => {
             readline.close();
             resolve();
         })

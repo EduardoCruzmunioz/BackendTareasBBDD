@@ -1,9 +1,9 @@
 const oracledb = require('oracledb');
 
-// Usuario, password y conexión viven en helpers/config.js (no se sube a git)
+// Datos de conexión (archivo privado, no se sube a git)
 const config = require('./config');
 
-// Leer: devuelve un array de tareas, o null si no hay ninguna
+// Lee las tareas de la tabla. Devuelve null si no hay ninguna
 const leerDB = async() => {
 
     const conn = await oracledb.getConnection( config );
@@ -32,7 +32,7 @@ const leerDB = async() => {
     }
 }
 
-// Guardar: recibe el array de tareas y deja la tabla igual que ese array
+// Deja la tabla igual que el array de tareas que recibe
 const guardarDB = async( tareas = [] ) => {
 
     const conn = await oracledb.getConnection( config );
@@ -41,11 +41,12 @@ const guardarDB = async( tareas = [] ) => {
 
         if ( tareas.length === 0 ) {
 
+            // Sin tareas: vaciar la tabla
             await conn.execute( `DELETE FROM TAREAS` );
 
         } else {
 
-            // insertar nuevas o actualizar existentes
+            // Insertar las nuevas y actualizar las que ya existen
             await conn.executeMany(
                 `MERGE INTO TAREAS t
                  USING (SELECT :id ID,
@@ -73,7 +74,7 @@ const guardarDB = async( tareas = [] ) => {
                 }
             );
 
-            // borrar las que ya no están en la lista
+            // Borrar las que ya no están en la lista
             const marcas = tareas.map( (t, i) => `:${ i + 1 }` ).join(',');
             await conn.execute(
                 `DELETE FROM TAREAS WHERE ID NOT IN (${ marcas })`,
@@ -84,6 +85,7 @@ const guardarDB = async( tareas = [] ) => {
         await conn.commit();
 
     } catch ( error ) {
+        // Si algo falla, deshacer los cambios
         await conn.rollback();
         throw error;
     } finally {

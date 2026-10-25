@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 
+// Una tarea: id único, descripción y fecha en que se completó
 class Tarea {
 
     id = '';

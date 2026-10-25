@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 require('colors');
 
+// Opciones del menú principal
 const preguntas = [
     {
         type: 'list',
@@ -39,6 +40,7 @@ const preguntas = [
     }
 ];
 
+// Muestra el menú y devuelve la opción elegida
 const inquirerMenu = async() => {
 
     console.clear();
@@ -51,6 +53,7 @@ const inquirerMenu = async() => {
     return opcion;
 }
 
+// Pausa hasta que el usuario pulse ENTER
 const pausa = async() => {
 
     const question = [
@@ -65,6 +68,7 @@ const pausa = async() => {
     await inquirer.prompt(question);
 }
 
+// Pide un texto al usuario y no deja dejarlo vacío
 const leerInput = async( message ) => {
 
     const question = [
@@ -72,9 +76,7 @@ const leerInput = async( message ) => {
             type: 'input',
             name: 'desc',
             message,
-            //validate es una función de la documentación de inquirer
-            //Vamos a forzar a que el usuario introduzca un valor, no podemos permitir que no lo haga
-            validate( value ) {//estamos definiendo una función dentro del objeto message
+            validate( value ) {
                 if( value.length === 0 ) {
                     return 'Por favor introduzca un valor';
                 }
@@ -83,29 +85,29 @@ const leerInput = async( message ) => {
         }
     ];
 
-    //devuelve un objeto pero nos interesa solo la descripcion => desestructuramos solo la descripcion
     const { desc } = await inquirer.prompt(question);
     return desc;
 }
 
+// Lista de tareas para elegir cuál borrar
 const listadoTareasBorrar = async( tareas = [] ) => {
 
-    const choices = tareas.map( (tarea, i) => {//map nos retorna un nuevo array transformando los elementos nuevos según se implemente
+    const choices = tareas.map( (tarea, i) => {
 
         const idx = `${i + 1}.`.green;
-        return {//los nuevos elementos del array tareas mapeado que es choices
+        return {
             value: tarea.id,
             name:  `${ idx } ${ tarea.desc }`
         }
     });
 
-    //nueva opción para añadir al inicio la opción de cancelar el borrado...
+    // Primera opción: cancelar
     choices.unshift({
         value: '0',
         name: '0.'.green + ' Cancelar'
     });
 
-    const preguntas = [//consultar la documentación de inquirer...
+    const preguntas = [
         {
             type: 'list',
             name: 'id',
@@ -118,6 +120,7 @@ const listadoTareasBorrar = async( tareas = [] ) => {
     return id;
 }
 
+// Pregunta sí o no
 const confirmar = async(message) => {
 
     const question = [
@@ -132,6 +135,7 @@ const confirmar = async(message) => {
     return ok;
 }
 
+// Lista con casillas para marcar varias tareas (tecla espacio)
 const mostrarListadoChecklist = async( tareas = [] ) => {
 
     const choices = tareas.map( (tarea, i) => {
@@ -147,7 +151,7 @@ const mostrarListadoChecklist = async( tareas = [] ) => {
 
     const pregunta = [
         {
-            type: 'checkbox',//NUEVO
+            type: 'checkbox',
             name: 'ids',
             message: 'Selecciones',
             choices

@@ -1,4 +1,4 @@
--- Ejecutar una vez en tu Oracle (SQL Developer, SQL*Plus...)
+-- Tabla donde se guardan las tareas
 CREATE TABLE TAREAS (
     ID            VARCHAR2(36)  PRIMARY KEY,
     DESCRIPCION   VARCHAR2(500) NOT NULL,
